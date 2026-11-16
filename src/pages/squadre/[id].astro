@@ -31,8 +31,8 @@ const upcoming = getUpcomingMatches(team.data);
   description={`${name}: serie ${series}, ${group}, stagione ${season}. Classifica, risultati e prossimi incontri.`}
 >
   <PageHeader eyebrow={`Serie ${series} · Stagione ${season}`} title={name} intro={group}>
-    <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
-      <a href={fitetUrl} class="btn btn-secondary" rel="noopener">
+    <div class="mt-6 flex flex-col items-start gap-3 lg:flex-row lg:items-center">
+      <a href={fitetUrl} class="btn btn-secondary shrink-0" rel="noopener">
         Girone sul portale FITeT
         <Icon name="external" class="h-4 w-4" />
       </a>

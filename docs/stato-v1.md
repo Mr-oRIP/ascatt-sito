@@ -29,9 +29,9 @@ Altro: sitemap (`/sitemap-index.xml`), `robots.txt`, favicon e icone dal logo, i
 Tutto in locale, sul sito costruito con `npm run build` e servito con `npm run preview`.
 
 - **Build:** `npm run build` finisce senza errori (16 pagine). `npm run check`: 0 errori, 0 avvisi.
-- **Screenshot:** 12 pagine (le 11 del sito più la 404) a 375, 768 e 1440 px, con Playwright. Li ho guardati tutti a 375 px per home, squadra, corsi, orari; a 1440 px per home, corsi, squadra, società; a 768 px la home. Le altre combinazioni sono state controllate solo in automatico (vedi sotto), non a occhio.
+- **Screenshot:** 12 pagine (le 11 del sito più la 404) a 375, 768 e 1440 px, con Playwright. Li ho guardati tutti: a 375 px e per la home a grandezza piena; per le altre pagine a 768 e 1440 px rimpiccioliti (abbastanza per vedere l'impaginazione, non per leggere ogni riga).
 - **Controlli automatici su tutte le 36 combinazioni:** nessuno sforamento orizzontale, nessuna immagine rotta, un solo `h1` per pagina, nessuna immagine senza `alt`, nessun errore in console (a parte il 404 atteso della pagina di test).
-- **Correzioni fatte dopo gli screenshot:** giorni della settimana in ordine sbagliato (erano alfabetici), foto verticali tagliate male nelle card (ritagliate in orizzontale), contenitore troppo stretto a 1440 px, velo dell'hero troppo leggero su telefono per il contrasto del testo.
+- **Correzioni fatte dopo gli screenshot:** giorni della settimana in ordine sbagliato (erano alfabetici), foto verticali tagliate male nelle card (ritagliate in orizzontale), contenitore troppo stretto a 1440 px, velo dell'hero troppo leggero su telefono per il contrasto del testo, pulsante FITeT che andava a capo e footer troppo stretto a 768 px, pulsanti attaccati al testo nelle card dei contatti. Le ultime tre correzioni le ho ricontrollate solo con uno screenshot mirato a 768 e 375 px, non rifacendo tutto il giro.
 - **Tastiera:** link "Vai al contenuto", ordine del focus nell'header, contorno giallo sempre visibile, menu su telefono apribile con Invio e chiudibile con Esc (il focus torna al pulsante), filtro per serie usabile da tastiera con annuncio per screen reader.
 - **Contrasto:** tutte le coppie testo/sfondo della palette sono sopra 4,5:1 (la più bassa è l'azzurro dei link sulle card, 6,9:1). L'audit di contrasto di Lighthouse passa su tutte le pagine. Il testo dell'hero è sopra una foto: l'ho verificato con il calcolo sul caso peggiore (velo al 70% su bianco), non con uno strumento.
 
@@ -50,7 +50,7 @@ Ultimo giro, dopo tutte le correzioni:
 | Squadra A | mobile | 100 | 100 | 100 | 100 | 0,8 s | 0 |
 | Squadra A | desktop | 100 | 100 | 100 | 100 | 0,2 s | 0 |
 
-Un giro precedente su tutte le 11 pagine (mobile) ha dato 100 nelle quattro categorie ovunque; dopo quel giro è cambiata solo l'opacità del velo dell'hero in home.
+Anche Contatti (mobile) è a 100 nelle quattro categorie nell'ultimo giro. Un giro precedente su tutte le 11 pagine (mobile) aveva dato 100 ovunque; dopo quel giro sono cambiati solo il velo dell'hero, la spaziatura delle card dei contatti, la testata della pagina squadra e la griglia del footer, e le altre pagine non sono state rimisurate.
 
 Al primo giro la pagina Corsi aveva Accessibility 90 (lista di definizioni non valida e salto da `h1` a `h3`): corretto, e lo stesso salto di titoli è stato corretto anche in News e Squadre.
 
