@@ -8,3 +8,6 @@ dist/
 .DS_Store
 CLAUDE.md
 .claude/settings.local.json
+
+# File temporanei degli strumenti di test
+.playwright-mcp/
