@@ -19,4 +19,4 @@ Inter (già usato nelle storie Instagram), da includere nel progetto senza Googl
 
 ## Foto
 
-Al momento non ci sono foto della società nel progetto. Usare segnaposto chiari (riquadri con la scritta "Foto da inserire" e la descrizione di cosa serve), raccolti in un elenco in `docs/foto-da-raccogliere.md`. Niente foto stock che sembrino della società, niente foto o nomi di minorenni.
+Al momento non ci sono foto della società nel progetto. Dove una sezione ha bisogno di una foto, usare foto provvisorie di tennistavolo da archivi gratuiti con licenza libera (Unsplash, Pexels o simili), salvate nel progetto e ottimizzate. Per ognuna annotare fonte, licenza e quale foto vera la sostituirà in `docs/foto-da-raccogliere.md`. Niente foto con loghi di altre squadre, niente foto o nomi di minorenni riconoscibili. Le foto vere le metterà Luca in `brand/foto/`.
