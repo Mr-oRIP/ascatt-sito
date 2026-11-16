@@ -1,0 +1,103 @@
+---
+// Orari e palestra: orari settimanali in testo, indirizzo, link alla mappa e indicazioni.
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import SampleNotice from '../components/SampleNotice.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+
+const schedule = await getCollection('schedule');
+
+// Indicazioni per arrivare: testi segnaposto da riscrivere.
+const directions = [
+  { title: 'In auto', text: '[Indicazioni in auto da confermare: uscita della tangenziale o autostrada, strada da seguire.]' },
+  { title: 'Con i mezzi', text: '[Indicazioni con i mezzi pubblici da confermare: linea, fermata, minuti a piedi.]' },
+  { title: 'Parcheggio e ingresso', text: '[Dove parcheggiare e da quale ingresso si accede alla palestra: da confermare.]' },
+];
+---
+
+<Base
+  title="Orari e palestra"
+  description="Orari settimanali di corsi e allenamenti dell'ASD ASCA TT, indirizzo della palestra e indicazioni per arrivare."
+>
+  <PageHeader
+    eyebrow="Orari e palestra"
+    title="Quando e dove giochiamo"
+    intro="Gli orari settimanali di corsi e allenamenti e tutte le indicazioni per raggiungere la palestra."
+  />
+
+  <section class="section">
+    <div class="page-container">
+      <h2 class="text-3xl sm:text-4xl">Orari settimanali</h2>
+      <div class="mt-5 max-w-2xl">
+        <SampleNotice>Giorni e orari non sono quelli reali: da confermare.</SampleNotice>
+      </div>
+
+      <ul class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          schedule.map((entry) => (
+            <li class="card p-6">
+              <h3 class="text-xl">{entry.data.day}</h3>
+              <ul class="mt-4 space-y-3">
+                {entry.data.slots.map((slot) => (
+                  <li>
+                    <p class="font-bold whitespace-nowrap text-neon">{slot.time}</p>
+                    <p class="text-slate-200">{slot.activity}</p>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="mt-6 text-mist">
+        Durante le festività e in estate gli orari possono cambiare: gli avvisi sono nelle <a href="/news/" class="text-link">news</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="section border-y border-navy-700 bg-navy-900">
+    <div class="page-container grid gap-10 lg:grid-cols-5">
+      <div class="lg:col-span-2">
+        <h2 class="text-3xl sm:text-4xl">La palestra</h2>
+        <address class="mt-5 flex gap-3 text-lg not-italic">
+          <Icon name="map-pin" class="mt-1 h-6 w-6 text-neon" />
+          <span>
+            <span class="font-semibold text-white">{site.venue.name}</span><br />
+            {site.venue.street}<br />
+            {site.venue.city}
+          </span>
+        </address>
+        <a href={site.venue.mapUrl} class="btn btn-primary mt-6" rel="noopener">
+          Apri in Google Maps
+          <Icon name="external" class="h-4 w-4" />
+        </a>
+      </div>
+
+      <div id="come-arrivare" class="lg:col-span-3">
+        <h2 class="text-3xl sm:text-4xl">Come arrivare</h2>
+        <dl class="mt-5 space-y-4">
+          {
+            directions.map((item) => (
+              <div class="card p-5">
+                <dt class="text-lg font-extrabold text-white">{item.title}</dt>
+                <dd class="mt-1 text-mist">{item.text}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="page-container flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
+      <div>
+        <h2 class="text-3xl">Prima volta in palestra?</h2>
+        <p class="mt-2 text-lg text-mist">Avvisaci prima di passare: ti accogliamo e ti facciamo provare.</p>
+      </div>
+      <a href="/corsi/#prova-gratuita" class="btn btn-primary shrink-0">Prenota la prova gratuita</a>
+    </div>
+  </section>
+</Base>

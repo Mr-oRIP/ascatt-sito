@@ -1,0 +1,182 @@
+---
+// Home: hero, ultime news, squadre, corsi, sponsor, dove siamo.
+import { Picture } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import NewsCard from '../components/NewsCard.astro';
+import TeamCard from '../components/TeamCard.astro';
+import SponsorLogo from '../components/SponsorLogo.astro';
+import heroImage from '../assets/foto/hero-racchetta-giocatori.jpg';
+import { site, whatsappLink } from '../data/site';
+
+const latestNews = (await getCollection('news', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+
+const teams = (await getCollection('teams')).sort((a, b) => a.data.order - b.data.order);
+const courses = (await getCollection('courses')).sort((a, b) => a.data.order - b.data.order);
+const schedule = await getCollection('schedule');
+
+const sponsors = await getCollection('sponsors');
+const mainSponsors = sponsors.filter((sponsor) => sponsor.data.tier === 'main');
+const partners = sponsors.filter((sponsor) => sponsor.data.tier === 'partner');
+---
+
+<Base title={site.name}>
+  <!-- Hero -->
+  <section class="relative isolate overflow-hidden border-b border-navy-700">
+    <Picture
+      src={heroImage}
+      alt=""
+      formats={['avif', 'webp']}
+      widths={[480, 768, 1080, 1440, 1920]}
+      sizes="100vw"
+      priority
+      class="absolute inset-0 -z-20 h-full w-full object-cover object-[70%_center]"
+    />
+    <div class="absolute inset-0 -z-10 bg-linear-to-r from-navy-950 via-navy-950/90 to-navy-950/55"></div>
+
+    <div class="page-container py-20 sm:py-28 lg:py-36">
+      <p class="eyebrow">Tennistavolo · Stagione {site.season}</p>
+      <h1 class="mt-4 max-w-3xl text-5xl leading-[1.05] sm:text-6xl lg:text-7xl">
+        Prendi la racchetta.<br />
+        <span class="text-neon">Al resto pensiamo noi.</span>
+      </h1>
+      <p class="mt-6 max-w-xl text-lg text-slate-200 sm:text-xl">
+        Corsi per bambini, ragazzi e adulti e squadre nei campionati regionali FITeT. La prima prova è gratuita: vieni a
+        conoscerci in palestra.
+      </p>
+      <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+        <a href="/corsi/#prova-gratuita" class="btn btn-primary px-8 text-lg">Prenota la prova gratuita</a>
+        <a href={whatsappLink('Ciao! Vorrei informazioni sul tennistavolo.')} class="btn btn-secondary bg-navy-950/60" rel="noopener">
+          <Icon name="whatsapp" />
+          Scrivici su WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ultime news -->
+  <section class="section">
+    <div class="page-container">
+      <SectionHeading eyebrow="In evidenza" title="Ultime news" linkLabel="Tutte le news" linkHref="/news/" />
+      <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {latestNews.map((post) => <li><NewsCard post={post} /></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Squadre -->
+  <section class="section border-y border-navy-700 bg-navy-900">
+    <div class="page-container">
+      <SectionHeading
+        eyebrow={`Campionati ${site.season}`}
+        title="Le nostre squadre"
+        linkLabel="Tutte le squadre"
+        linkHref="/squadre/"
+      />
+      <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {teams.map((team) => <li><TeamCard team={team} /></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Corsi -->
+  <section class="section">
+    <div class="page-container">
+      <SectionHeading eyebrow="Scuola tennistavolo" title="Un corso per ogni età" linkLabel="Tutti i corsi" linkHref="/corsi/" />
+      <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          courses.map((course) => (
+            <li>
+              <a href={`/corsi/#${course.id}`} class="card group flex h-full flex-col p-6 transition-colors hover:border-neon">
+                <h3 class="text-xl group-hover:text-neon">{course.data.title}</h3>
+                <p class="mt-1 text-sm font-semibold text-neon">{course.data.audience}</p>
+                <p class="mt-4 text-mist">{course.data.sessions.map((session) => session.day).join(' e ')}</p>
+                <p class="mt-auto flex items-center gap-1.5 pt-5 font-semibold text-sky-400">
+                  Scopri il corso
+                  <Icon name="arrow-right" class="h-4 w-4" />
+                </p>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="card mt-8 flex flex-col items-start justify-between gap-5 border-neon/50 p-6 sm:flex-row sm:items-center sm:p-8">
+        <div>
+          <h3 class="text-2xl">Mai giocato? Meglio.</h3>
+          <p class="mt-1 text-mist">Vieni a provare gratis: racchetta e palline te le prestiamo noi.</p>
+        </div>
+        <a href="/corsi/#prova-gratuita" class="btn btn-primary shrink-0">Prenota la prova gratuita</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sponsor -->
+  <section class="section border-y border-navy-700 bg-navy-900">
+    <div class="page-container">
+      <SectionHeading eyebrow="Chi ci sostiene" title="I nostri sponsor" linkLabel="Diventa sponsor" linkHref="/sponsor/#diventa-sponsor" />
+      <ul class="grid grid-cols-2 gap-4 lg:grid-cols-6">
+        {
+          mainSponsors.map((sponsor) => (
+            <li class="col-span-2">
+              <SponsorLogo sponsor={sponsor} />
+            </li>
+          ))
+        }
+        {partners.map((sponsor) => <li><SponsorLogo sponsor={sponsor} /></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Dove siamo -->
+  <section class="section">
+    <div class="page-container">
+      <SectionHeading eyebrow="Vieni a trovarci" title="Dove siamo" />
+      <div class="grid gap-6 lg:grid-cols-2">
+        <div class="card p-6 sm:p-8">
+          <h3 class="flex items-center gap-2 text-xl">
+            <Icon name="map-pin" class="h-5 w-5 text-neon" />
+            La palestra
+          </h3>
+          <address class="mt-4 text-lg not-italic">
+            <span class="font-semibold text-white">{site.venue.name}</span><br />
+            {site.venue.street}<br />
+            {site.venue.city}
+          </address>
+          <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+            <a href={site.venue.mapUrl} class="btn btn-secondary" rel="noopener">
+              Apri la mappa
+              <Icon name="external" class="h-4 w-4" />
+            </a>
+            <a href="/orari-e-palestra/#come-arrivare" class="btn btn-secondary">Come arrivare</a>
+          </div>
+        </div>
+        <div class="card p-6 sm:p-8">
+          <h3 class="flex items-center gap-2 text-xl">
+            <Icon name="clock" class="h-5 w-5 text-neon" />
+            Quando siamo in palestra
+          </h3>
+          <dl class="mt-4 divide-y divide-navy-700">
+            {
+              schedule.map((entry) => (
+                <div class="flex justify-between gap-4 py-2">
+                  <dt class="font-semibold text-white">{entry.data.day}</dt>
+                  <dd class="text-right text-mist">{entry.data.slots.map((slot) => slot.time).join(' · ')}</dd>
+                </div>
+              ))
+            }
+          </dl>
+          <p class="mt-5">
+            <a href="/orari-e-palestra/" class="text-link inline-flex items-center gap-1.5 py-1">
+              Orari completi
+              <Icon name="arrow-right" class="h-4 w-4" />
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

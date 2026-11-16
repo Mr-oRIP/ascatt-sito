@@ -1,0 +1,141 @@
+---
+// La società: storia, chi siamo, consiglio direttivo e allenatori.
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import SampleNotice from '../components/SampleNotice.astro';
+import clubImage from '../assets/foto/racchetta-pallina-primo-piano.jpg';
+import { site } from '../data/site';
+
+const staff = await getCollection('staff');
+const board = staff.filter((person) => person.data.group === 'board');
+const coaches = staff.filter((person) => person.data.group === 'coaches');
+
+const values = [
+  {
+    title: 'Per tutti',
+    text: 'Dai bambini che prendono in mano la prima racchetta a chi gioca da una vita: in palestra c’è un tavolo per ogni livello.',
+  },
+  {
+    title: 'Settore giovanile',
+    text: 'Crediamo nei giovani: allenatori qualificati, gruppi piccoli e la possibilità di crescere fino alle squadre di campionato.',
+  },
+  {
+    title: 'Agonismo e amicizia',
+    text: 'Le nostre squadre giocano nei campionati regionali FITeT. Si gioca per vincere, ma soprattutto per stare bene insieme.',
+  },
+];
+---
+
+<Base
+  title="La società"
+  description="Chi siamo, la nostra storia, il consiglio direttivo e gli allenatori dell'ASD ASCA TT, società di tennistavolo affiliata FITeT."
+>
+  <PageHeader
+    eyebrow="La società"
+    title="Una società, tanti modi di giocare"
+    intro="ASD ASCA TT è una associazione sportiva dilettantistica di tennistavolo affiliata alla FITeT, la Federazione Italiana Tennistavolo."
+  />
+
+  <section class="section">
+    <div class="page-container grid items-center gap-10 lg:grid-cols-2">
+      <div class="prose">
+        <h2>La nostra storia</h2>
+        <p>
+          La società nasce nel <strong>[anno di fondazione da confermare]</strong> a <strong>[Comune da confermare]</strong> dalla passione
+          di un gruppo di amici per il tennistavolo. [Testo sulla storia da scrivere: come è nata la società, le tappe principali,
+          i risultati più importanti.]
+        </p>
+        <p>
+          Oggi siamo una realtà con un settore giovanile, corsi per adulti e amatori e squadre iscritte ai campionati regionali
+          lombardi. La palestra è il nostro punto di ritrovo: ci si allena, ci si sfida e si sta insieme.
+        </p>
+      </div>
+      <Image
+        src={clubImage}
+        alt="Una racchetta appoggiata su una pallina sul tavolo, con due giocatori sfocati sullo sfondo"
+        width={960}
+        height={640}
+        widths={[480, 720, 960, 1280]}
+        sizes="(min-width: 1024px) 540px, 100vw"
+        class="rounded-2xl border border-navy-700"
+      />
+    </div>
+  </section>
+
+  <section class="section border-y border-navy-700 bg-navy-900">
+    <div class="page-container">
+      <p class="eyebrow">Chi siamo</p>
+      <h2 class="mt-1 text-3xl sm:text-4xl">Cosa ci sta a cuore</h2>
+      <ul class="mt-8 grid gap-6 md:grid-cols-3">
+        {
+          values.map((value) => (
+            <li class="card p-6">
+              <h3 class="text-xl">{value.title}</h3>
+              <p class="mt-3 text-mist">{value.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="page-container">
+      <p class="eyebrow">Staff</p>
+      <h2 class="mt-1 text-3xl sm:text-4xl">Allenatori</h2>
+      <div class="mt-6 max-w-2xl">
+        <SampleNotice>Nomi, qualifiche e presentazioni sono segnaposto.</SampleNotice>
+      </div>
+      <ul class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          coaches.map((person) => (
+            <li class="card p-6">
+              <p class="text-sm font-bold uppercase tracking-wider text-neon">{person.data.role}</p>
+              <h3 class="mt-2 text-xl">{person.data.name}</h3>
+              {person.data.bio && <p class="mt-3 text-mist">{person.data.bio}</p>}
+            </li>
+          ))
+        }
+      </ul>
+
+      <h2 class="mt-16 text-3xl sm:text-4xl">Consiglio direttivo</h2>
+      <ul class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          board.map((person) => (
+            <li class="card p-6">
+              <p class="text-sm font-bold uppercase tracking-wider text-neon">{person.data.role}</p>
+              <h3 class="mt-2 text-xl">{person.data.name}</h3>
+            </li>
+          ))
+        }
+      </ul>
+
+      <dl class="mt-12 grid gap-x-10 gap-y-4 border-t border-navy-700 pt-8 text-mist sm:grid-cols-3">
+        <div>
+          <dt class="text-sm">Denominazione</dt>
+          <dd class="font-semibold text-white">{site.legal.fullName}</dd>
+        </div>
+        <div>
+          <dt class="text-sm">Affiliazione FITeT</dt>
+          <dd class="font-semibold text-white">{site.legal.fitetCode}</dd>
+        </div>
+        <div>
+          <dt class="text-sm">Sede legale</dt>
+          <dd class="font-semibold text-white">{site.legal.registeredOffice}</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section border-t border-navy-700 bg-navy-900">
+    <div class="page-container flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
+      <div>
+        <h2 class="text-3xl">Vuoi far parte della squadra?</h2>
+        <p class="mt-2 text-lg text-mist">Scopri i corsi e prenota una prova gratuita.</p>
+      </div>
+      <a href="/corsi/" class="btn btn-primary shrink-0">Vai ai corsi</a>
+    </div>
+  </section>
+</Base>

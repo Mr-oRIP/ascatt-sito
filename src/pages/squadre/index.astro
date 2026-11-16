@@ -1,0 +1,114 @@
+---
+// Squadre: una card per squadra, con filtro per serie.
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import SampleNotice from '../../components/SampleNotice.astro';
+import TeamCard from '../../components/TeamCard.astro';
+import teamsImage from '../../assets/foto/racchetta-tavolo-nero.jpg';
+import { site } from '../../data/site';
+
+const teams = (await getCollection('teams')).sort((a, b) => a.data.order - b.data.order);
+
+// Le serie presenti (es. D1, D2, D3) diventano i pulsanti del filtro.
+const seriesList = [...new Set(teams.map((team) => team.data.series))];
+---
+
+<Base
+  title="Squadre"
+  description={`Le squadre dell'ASD ASCA TT nei campionati regionali FITeT ${site.season}: serie, girone, classifica e incontri.`}
+>
+  <PageHeader
+    eyebrow={`Stagione ${site.season}`}
+    title="Le nostre squadre"
+    intro="Le squadre iscritte ai campionati regionali FITeT, con classifica e incontri aggiornati dalla società."
+  />
+
+  <section class="section">
+    <div class="page-container">
+      <div class="max-w-2xl">
+        <SampleNotice>Squadre, gironi, classifiche e risultati non sono reali.</SampleNotice>
+      </div>
+
+      <div class="mt-8 flex flex-wrap items-center gap-2" role="group" aria-label="Filtra le squadre per serie">
+        <button type="button" class="filter-button" data-series="all" aria-pressed="true">Tutte</button>
+        {
+          seriesList.map((series) => (
+            <button type="button" class="filter-button" data-series={series} aria-pressed="false">
+              {series}
+            </button>
+          ))
+        }
+      </div>
+      <p id="filter-status" class="sr-only" aria-live="polite"></p>
+
+      <ul id="team-list" class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          teams.map((team) => (
+            <li data-series={team.data.series}>
+              <TeamCard team={team} />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="border-t border-navy-700 bg-navy-900">
+    <div class="page-container grid items-center gap-8 py-14 md:grid-cols-2">
+      <Image
+        src={teamsImage}
+        alt="Una racchetta e una pallina su un tavolo scuro, con giocatori sfocati sullo sfondo"
+        width={960}
+        height={540}
+        widths={[480, 720, 960, 1280]}
+        sizes="(min-width: 768px) 50vw, 100vw"
+        class="aspect-video rounded-2xl border border-navy-700 object-cover"
+      />
+      <div>
+        <h2 class="text-3xl">Vieni a fare il tifo</h2>
+        <p class="mt-3 text-lg text-mist">
+          Le partite in casa si giocano nella nostra palestra e l'ingresso è libero. Giorni e orari sono nella pagina di ogni
+          squadra.
+        </p>
+        <a href="/orari-e-palestra/" class="btn btn-secondary mt-6">Orari e palestra</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  @reference "../../styles/global.css";
+
+  .filter-button {
+    @apply min-h-11 rounded-full border-2 border-navy-700 px-5 py-2 font-bold text-white transition-colors hover:border-neon;
+  }
+
+  .filter-button[aria-pressed='true'] {
+    @apply border-neon bg-neon text-navy-950;
+  }
+</style>
+
+<script>
+  // Filtro per serie: mostra solo le card della serie scelta.
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-button');
+  const items = document.querySelectorAll<HTMLLIElement>('#team-list > li');
+  const status = document.getElementById('filter-status');
+
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const series = button.dataset.series;
+      let visible = 0;
+
+      items.forEach((item) => {
+        const show = series === 'all' || item.dataset.series === series;
+        item.hidden = !show;
+        if (show) visible++;
+      });
+
+      buttons.forEach((other) => other.setAttribute('aria-pressed', String(other === button)));
+      if (status) status.textContent = `${visible} squadre mostrate`;
+    });
+  });
+</script>

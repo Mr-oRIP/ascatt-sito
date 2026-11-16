@@ -1,0 +1,36 @@
+---
+// Card di una news: copertina, data, titolo e riassunto.
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { formatDate, isoDate } from '../utils/format';
+
+interface Props {
+  post: CollectionEntry<'news'>;
+}
+
+const { post } = Astro.props;
+const { title, description, date, cover, coverAlt } = post.data;
+---
+
+<article class="card relative flex h-full flex-col overflow-hidden transition-colors hover:border-neon">
+  {
+    cover && (
+      <Image
+        src={cover}
+        alt={coverAlt}
+        width={640}
+        height={360}
+        widths={[320, 480, 640, 960]}
+        sizes="(min-width: 1024px) 352px, (min-width: 640px) 50vw, 100vw"
+        class="aspect-video w-full object-cover"
+      />
+    )
+  }
+  <div class="flex flex-1 flex-col p-5">
+    <time datetime={isoDate(date)} class="text-sm font-semibold text-mist">{formatDate(date)}</time>
+    <h3 class="mt-2 text-xl leading-snug">
+      <a href={`/news/${post.id}/`} class="after:absolute after:inset-0 hover:text-neon">{title}</a>
+    </h3>
+    <p class="mt-2 text-mist">{description}</p>
+  </div>
+</article>

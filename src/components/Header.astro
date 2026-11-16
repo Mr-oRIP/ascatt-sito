@@ -1,0 +1,97 @@
+---
+// Intestazione fissa: logo, menu, pulsante "Prova gratuita" e menu a comparsa su telefono.
+import { Image } from 'astro:assets';
+import logo from '../../brand/logo-asca.png';
+import Icon from './Icon.astro';
+import { site, navigation } from '../data/site';
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-40 border-b border-navy-700 bg-navy-950/95 backdrop-blur">
+  <div class="page-container flex h-16 items-center justify-between gap-4">
+    <a href="/" class="flex items-center gap-3" aria-label={`${site.name}, vai alla home`}>
+      <Image src={logo} alt="" width={44} height={44} densities={[1, 2, 3]} loading="eager" />
+      <span class="text-lg font-extrabold tracking-tight text-white">{site.shortName}</span>
+    </a>
+
+    <nav aria-label="Menu principale" class="hidden lg:block">
+      <ul class="flex items-center gap-1">
+        {
+          navigation.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={currentPath.startsWith(item.href) ? 'page' : undefined}
+                class="rounded-full px-3 py-2 text-[0.95rem] font-semibold text-slate-200 hover:text-neon aria-[current=page]:text-neon"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <a href="/corsi/#prova-gratuita" class="btn btn-primary hidden min-h-11 px-5 py-2 text-sm sm:inline-flex">
+        Prova gratuita
+      </a>
+      <button
+        type="button"
+        id="menu-button"
+        class="flex h-11 w-11 items-center justify-center rounded-full border border-navy-700 text-white lg:hidden"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <span class="sr-only">Menu</span>
+        <span data-icon-open><Icon name="menu" class="h-6 w-6" /></span>
+        <span data-icon-close hidden><Icon name="close" class="h-6 w-6" /></span>
+      </button>
+    </div>
+  </div>
+
+  <nav id="mobile-menu" aria-label="Menu principale" class="border-t border-navy-700 bg-navy-950 lg:hidden" hidden>
+    <ul class="page-container flex flex-col py-3">
+      {
+        navigation.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              aria-current={currentPath.startsWith(item.href) ? 'page' : undefined}
+              class="block border-b border-navy-700/60 py-3.5 text-lg font-semibold text-white aria-[current=page]:text-neon"
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+      <li class="pt-4 pb-2 sm:hidden">
+        <a href="/corsi/#prova-gratuita" class="btn btn-primary w-full">Prova gratuita</a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<script>
+  // Apre e chiude il menu su telefono. Senza JavaScript il menu resta raggiungibile dal footer.
+  const button = document.getElementById('menu-button');
+  const menu = document.getElementById('mobile-menu');
+
+  function setOpen(open: boolean) {
+    if (!button || !menu) return;
+    menu.hidden = !open;
+    button.setAttribute('aria-expanded', String(open));
+    button.querySelector<HTMLElement>('[data-icon-open]')!.hidden = open;
+    button.querySelector<HTMLElement>('[data-icon-close]')!.hidden = !open;
+  }
+
+  button?.addEventListener('click', () => setOpen(Boolean(menu?.hidden)));
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && menu && !menu.hidden) {
+      setOpen(false);
+      button?.focus();
+    }
+  });
+</script>

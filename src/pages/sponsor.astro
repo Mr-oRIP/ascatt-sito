@@ -1,0 +1,78 @@
+---
+// Sponsor: main sponsor in evidenza, griglia degli altri e "diventa sponsor".
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import SampleNotice from '../components/SampleNotice.astro';
+import SponsorLogo from '../components/SponsorLogo.astro';
+import ContactButtons from '../components/ContactButtons.astro';
+
+const sponsors = await getCollection('sponsors');
+const mainSponsors = sponsors.filter((sponsor) => sponsor.data.tier === 'main');
+const partners = sponsors.filter((sponsor) => sponsor.data.tier === 'partner');
+
+const reasons = [
+  { title: 'Sostieni lo sport di base', text: 'Il tuo contributo va a materiali, tavoli, trasferte e attività del settore giovanile.' },
+  { title: 'Visibilità sul territorio', text: 'Logo sul sito, sui social della società e in palestra durante corsi e partite. [Spazi disponibili da confermare.]' },
+  { title: 'Formule su misura', text: 'Dal piccolo contributo alla sponsorizzazione della maglia da gara. [Formule e importi da confermare.]' },
+];
+---
+
+<Base
+  title="Sponsor"
+  description="Gli sponsor che sostengono l'ASD ASCA TT e come diventare sponsor della società di tennistavolo."
+>
+  <PageHeader
+    eyebrow="Sponsor"
+    title="Chi ci sostiene"
+    intro="Grazie alle aziende e alle attività che credono nel nostro progetto sportivo."
+  />
+
+  <section class="section">
+    <div class="page-container">
+      <div class="max-w-2xl">
+        <SampleNotice>Nomi e loghi degli sponsor sono segnaposto.</SampleNotice>
+      </div>
+
+      <h2 class="mt-10 text-2xl sm:text-3xl">Main sponsor</h2>
+      <ul class="mt-5 space-y-5">
+        {
+          mainSponsors.map((sponsor) => (
+            <li class="card grid items-center gap-6 border-gold/50 p-6 md:grid-cols-2 md:p-8">
+              <SponsorLogo sponsor={sponsor} large />
+              <div>
+                <h3 class="text-2xl">{sponsor.data.name}</h3>
+                {sponsor.data.description && <p class="mt-2 text-lg text-mist">{sponsor.data.description}</p>}
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+
+      <h2 class="mt-14 text-2xl sm:text-3xl">Sponsor e partner</h2>
+      <ul class="mt-5 grid grid-cols-2 gap-4 md:grid-cols-4">
+        {partners.map((sponsor) => <li><SponsorLogo sponsor={sponsor} /></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section id="diventa-sponsor" class="section border-t border-navy-700 bg-navy-900">
+    <div class="page-container">
+      <p class="eyebrow">Diventa sponsor</p>
+      <h2 class="mt-1 text-3xl sm:text-4xl">Porta la tua azienda al tavolo con noi</h2>
+      <ul class="mt-8 grid gap-6 md:grid-cols-3">
+        {
+          reasons.map((reason) => (
+            <li class="card p-6">
+              <h3 class="text-xl">{reason.title}</h3>
+              <p class="mt-2 text-mist">{reason.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="mt-8">
+        <ContactButtons message="Buongiorno, vorrei informazioni per diventare sponsor della società." subject="Diventare sponsor ASD ASCA TT" />
+      </div>
+    </div>
+  </section>
+</Base>

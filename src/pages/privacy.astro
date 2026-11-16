@@ -1,0 +1,54 @@
+---
+// Privacy e note legali: testo minimo SEGNAPOSTO, da far rivedere alla società prima della pubblicazione.
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { site, mailLink } from '../data/site';
+---
+
+<Base title="Privacy e note legali" description="Informativa privacy e note legali del sito dell'ASD ASCA TT.">
+  <PageHeader eyebrow="Informazioni legali" title="Privacy e note legali" />
+
+  <section class="section">
+    <div class="page-container">
+      <div class="prose">
+        <p>
+          <strong>Testo provvisorio.</strong> Questa pagina è una traccia da far rivedere e completare dalla società prima della
+          pubblicazione del sito.
+        </p>
+
+        <h2>Titolare del trattamento</h2>
+        <p>
+          {site.legal.fullName}, {site.legal.registeredOffice}. {site.legal.taxCode}. Contatto: <a href={mailLink('Privacy')}>{site.emailLabel}</a>.
+        </p>
+
+        <h2>Quali dati raccoglie questo sito</h2>
+        <ul>
+          <li>Il sito non usa cookie di profilazione né strumenti di statistica, e non contiene moduli di raccolta dati.</li>
+          <li>I font e le immagini sono serviti direttamente dal sito, senza richieste a servizi di terze parti.</li>
+          <li>
+            Come ogni sito, il servizio di hosting registra per motivi tecnici e di sicurezza alcuni dati di navigazione (ad esempio
+            indirizzo IP, data e ora della richiesta). [Fornitore di hosting e tempi di conservazione da confermare.]
+          </li>
+        </ul>
+
+        <h2>Se ci scrivi</h2>
+        <p>
+          Se ci contatti via WhatsApp, email o social, usiamo i dati che ci comunichi solo per risponderti. WhatsApp, Instagram e
+          Facebook sono servizi esterni con proprie informative sulla privacy.
+        </p>
+
+        <h2>I tuoi diritti</h2>
+        <p>
+          Puoi chiedere in ogni momento di accedere ai tuoi dati, correggerli o farli cancellare scrivendo all'indirizzo indicato
+          sopra. [Riferimenti normativi e modalità di reclamo da completare.]
+        </p>
+
+        <h2>Note legali</h2>
+        <p>
+          {site.legal.fullName} · {site.legal.taxCode} · Sede legale: {site.legal.registeredOffice} · Affiliazione FITeT: {site.legal.fitetCode}.
+        </p>
+        <p>Testi e immagini del sito sono della società, salvo dove indicato diversamente.</p>
+      </div>
+    </div>
+  </section>
+</Base>

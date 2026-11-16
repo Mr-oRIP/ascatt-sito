@@ -1,0 +1,176 @@
+---
+// Pagina di una squadra: dati, rosa, classifica e incontri.
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import SampleNotice from '../../components/SampleNotice.astro';
+import Icon from '../../components/Icon.astro';
+import { getPosition, getPlayedMatches, getUpcomingMatches } from '../../utils/teams';
+import { formatDate, formatShortDate, isoDate } from '../../utils/format';
+
+export async function getStaticPaths() {
+  const teams = await getCollection('teams');
+  return teams.map((team) => ({ params: { id: team.id }, props: { team } }));
+}
+
+interface Props {
+  team: CollectionEntry<'teams'>;
+}
+
+const { team } = Astro.props;
+const { name, series, group, season, fitetUrl, updatedAt, homeMatches, players, standings } = team.data;
+
+const position = getPosition(team.data);
+const played = getPlayedMatches(team.data);
+const upcoming = getUpcomingMatches(team.data);
+---
+
+<Base
+  title={`${name} · Serie ${series}`}
+  description={`${name}: serie ${series}, ${group}, stagione ${season}. Classifica, risultati e prossimi incontri.`}
+>
+  <PageHeader eyebrow={`Serie ${series} · Stagione ${season}`} title={name} intro={group}>
+    <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+      <a href={fitetUrl} class="btn btn-secondary" rel="noopener">
+        Girone sul portale FITeT
+        <Icon name="external" class="h-4 w-4" />
+      </a>
+      <p class="text-sm text-mist">
+        Dati aggiornati a mano il <time datetime={isoDate(updatedAt)}>{formatDate(updatedAt)}</time>: fa fede il portale FITeT.
+      </p>
+    </div>
+  </PageHeader>
+
+  <section class="section">
+    <div class="page-container">
+      <div class="max-w-2xl">
+        <SampleNotice>Girone, classifica, risultati e giocatori non sono reali.</SampleNotice>
+      </div>
+
+      <dl class="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <div class="card p-5">
+          <dt class="text-sm text-mist">Posizione</dt>
+          <dd class="mt-1 text-3xl font-extrabold text-neon">{position ? `${position}ª` : 'n.d.'}</dd>
+        </div>
+        <div class="card p-5">
+          <dt class="text-sm text-mist">Serie</dt>
+          <dd class="mt-1 text-3xl font-extrabold text-white">{series}</dd>
+        </div>
+        <div class="card p-5">
+          <dt class="text-sm text-mist">Incontri giocati</dt>
+          <dd class="mt-1 text-3xl font-extrabold text-white">{played.length}</dd>
+        </div>
+        <div class="card p-5">
+          <dt class="text-sm text-mist">Partite in casa</dt>
+          <dd class="mt-1 font-semibold text-white">{homeMatches ?? 'n.d.'}</dd>
+        </div>
+      </dl>
+
+      <div class="mt-12 grid gap-12 lg:grid-cols-5">
+        <div class="lg:col-span-3">
+          <h2 class="text-2xl sm:text-3xl">Classifica</h2>
+          {
+            standings.length > 0 ? (
+              <div class="card mt-5 overflow-x-auto">
+                <table class="w-full text-left">
+                  <caption class="sr-only">Classifica {group}, serie {series}, stagione {season}</caption>
+                  <thead class="border-b border-navy-700 text-sm text-mist">
+                    <tr>
+                      <th scope="col" class="py-3 pr-2 pl-4 font-semibold"><abbr title="Posizione">Pos.</abbr></th>
+                      <th scope="col" class="px-2 py-3 font-semibold">Squadra</th>
+                      <th scope="col" class="px-2 py-3 text-center font-semibold"><abbr title="Giocate">G</abbr></th>
+                      <th scope="col" class="px-2 py-3 text-center font-semibold"><abbr title="Vinte">V</abbr></th>
+                      <th scope="col" class="px-2 py-3 text-center font-semibold"><abbr title="Perse">P</abbr></th>
+                      <th scope="col" class="py-3 pr-4 pl-2 text-center font-semibold"><abbr title="Punti">Pt</abbr></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {
+                      standings.map((row, index) => (
+                        <tr class:list={['border-b border-navy-700/60 last:border-0', row.team === name && 'bg-neon/15 font-bold text-white']}>
+                          <td class="py-3 pr-2 pl-4">{index + 1}</td>
+                          <th scope="row" class="px-2 py-3 font-[inherit]">{row.team}</th>
+                          <td class="px-2 py-3 text-center">{row.played}</td>
+                          <td class="px-2 py-3 text-center">{row.won}</td>
+                          <td class="px-2 py-3 text-center">{row.lost}</td>
+                          <td class="py-3 pr-4 pl-2 text-center font-bold">{row.points}</td>
+                        </tr>
+                      ))
+                    }
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <p class="mt-4 text-mist">Classifica non ancora disponibile.</p>
+            )
+          }
+
+          <h2 class="mt-12 text-2xl sm:text-3xl">Risultati</h2>
+          {
+            played.length > 0 ? (
+              <ul class="card mt-5 divide-y divide-navy-700/60">
+                {played.map((match) => (
+                  <li class="flex items-center justify-between gap-4 px-4 py-3">
+                    <div>
+                      <time datetime={isoDate(match.date)} class="text-sm text-mist">{formatShortDate(match.date)}</time>
+                      <p>
+                        <span class:list={[match.home === name && 'font-bold text-white']}>{match.home}</span>
+                        <span class="text-mist"> - </span>
+                        <span class:list={[match.away === name && 'font-bold text-white']}>{match.away}</span>
+                      </p>
+                    </div>
+                    <p class="rounded-lg bg-navy-950 px-3 py-1 text-lg font-extrabold whitespace-nowrap text-white">{match.result}</p>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p class="mt-4 text-mist">Nessun incontro giocato finora.</p>
+            )
+          }
+        </div>
+
+        <div class="lg:col-span-2">
+          <h2 class="text-2xl sm:text-3xl">Prossimi incontri</h2>
+          {
+            upcoming.length > 0 ? (
+              <ul class="mt-5 space-y-3">
+                {upcoming.map((match) => (
+                  <li class="card p-4">
+                    <time datetime={isoDate(match.date)} class="text-sm font-bold text-neon uppercase">{formatShortDate(match.date)}</time>
+                    <p class="mt-1">
+                      <span class:list={[match.home === name && 'font-bold text-white']}>{match.home}</span>
+                      <span class="text-mist"> - </span>
+                      <span class:list={[match.away === name && 'font-bold text-white']}>{match.away}</span>
+                    </p>
+                    <p class="text-sm text-mist">{match.home === name ? 'In casa' : 'In trasferta'}</p>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p class="mt-4 text-mist">Nessun incontro in calendario.</p>
+            )
+          }
+
+          <h2 class="mt-12 text-2xl sm:text-3xl">La rosa</h2>
+          {
+            players.length > 0 ? (
+              <ul class="card mt-5 divide-y divide-navy-700/60">
+                {players.map((player) => <li class="px-4 py-3">{player}</li>)}
+              </ul>
+            ) : (
+              <p class="mt-4 text-mist">Rosa non ancora disponibile.</p>
+            )
+          }
+        </div>
+      </div>
+
+      <p class="mt-12">
+        <a href="/squadre/" class="text-link inline-flex items-center gap-1.5 py-2">
+          <Icon name="arrow-left" class="h-4 w-4" />
+          Tutte le squadre
+        </a>
+      </p>
+    </div>
+  </section>
+</Base>

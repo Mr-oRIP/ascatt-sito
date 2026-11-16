@@ -1,0 +1,30 @@
+---
+// Logo di uno sponsor. Senza file del logo mostra un riquadro segnaposto con il nome.
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  sponsor: CollectionEntry<'sponsors'>;
+  large?: boolean;
+}
+
+const { sponsor, large = false } = Astro.props;
+const { name, url, logo } = sponsor.data;
+const Tag = url ? 'a' : 'div';
+---
+
+<Tag
+  href={url}
+  rel={url ? 'noopener sponsored' : undefined}
+  class:list={[
+    'flex items-center justify-center rounded-2xl bg-white p-5 text-center',
+    large ? 'min-h-40' : 'min-h-28',
+  ]}
+>
+  {
+    logo ? (
+      <img src={logo} alt={name} loading="lazy" class:list={['w-auto object-contain', large ? 'max-h-28' : 'max-h-16']} />
+    ) : (
+      <span class:list={['font-bold text-navy-800', large ? 'text-xl' : 'text-base']}>{name}</span>
+    )
+  }
+</Tag>

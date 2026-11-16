@@ -1,0 +1,120 @@
+---
+// Corsi e scuola tennistavolo: una scheda per fascia d'età, iscrizione e prova gratuita.
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import SampleNotice from '../components/SampleNotice.astro';
+import CourseCard from '../components/CourseCard.astro';
+import ContactButtons from '../components/ContactButtons.astro';
+import { site } from '../data/site';
+
+const courses = (await getCollection('courses')).sort((a, b) => a.data.order - b.data.order);
+
+const steps = [
+  {
+    title: 'Prenota la prova',
+    text: 'Scrivici su WhatsApp o via email: ti diciamo in che giorno venire in base all’età e al livello.',
+  },
+  {
+    title: 'Vieni in palestra',
+    text: 'Porta scarpe da ginnastica pulite e abbigliamento comodo. Racchetta e palline te le prestiamo noi.',
+  },
+  {
+    title: 'Completa l’iscrizione',
+    text: 'Se ti è piaciuto, ti iscrivi in segreteria: modulo, certificato medico e quota. [Documenti e modalità di pagamento da confermare.]',
+  },
+];
+
+const faqs = [
+  {
+    question: 'Serve già saper giocare?',
+    answer: 'No. I corsi partono dalle basi e i gruppi sono divisi per età e livello.',
+  },
+  {
+    question: 'Devo comprare la racchetta?',
+    answer: 'All’inizio no: per le prime lezioni la mettiamo a disposizione noi. Più avanti gli allenatori ti consigliano quella giusta.',
+  },
+  {
+    question: 'Si può iniziare ad anno già avviato?',
+    answer: 'Sì, ci si può inserire in qualsiasi momento della stagione. [Eventuale riduzione della quota da confermare.]',
+  },
+];
+---
+
+<Base
+  title="Corsi e scuola tennistavolo"
+  description="Corsi di tennistavolo per bambini, ragazzi, adulti e agonisti all'ASD ASCA TT: giorni, orari, quote e prova gratuita."
+>
+  <PageHeader
+    eyebrow={`Scuola tennistavolo · ${site.season}`}
+    title="Corsi per ogni età e livello"
+    intro="Dai primi scambi all'agonismo: scegli il gruppo giusto per te e vieni a provare gratis."
+  >
+    <a href="#prova-gratuita" class="btn btn-primary mt-6">Prenota la prova gratuita</a>
+  </PageHeader>
+
+  <section class="section">
+    <div class="page-container">
+      <div class="max-w-2xl">
+        <SampleNotice>Giorni e orari sono di esempio; età, quote e numero di prove sono da confermare.</SampleNotice>
+      </div>
+      <ul class="mt-8 grid gap-6 md:grid-cols-2">
+        {courses.map((course) => <li><CourseCard course={course} /></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section border-y border-navy-700 bg-navy-900">
+    <div class="page-container">
+      <p class="eyebrow">Iscrizioni</p>
+      <h2 class="mt-1 text-3xl sm:text-4xl">Iscriversi è semplice</h2>
+      <ol class="mt-8 grid gap-6 md:grid-cols-3">
+        {
+          steps.map((step, index) => (
+            <li class="card p-6">
+              <p class="flex h-10 w-10 items-center justify-center rounded-full bg-neon text-lg font-extrabold text-navy-950" aria-hidden="true">
+                {index + 1}
+              </p>
+              <h3 class="mt-4 text-xl">{step.title}</h3>
+              <p class="mt-2 text-mist">{step.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section id="prova-gratuita" class="section">
+    <div class="page-container">
+      <div class="card border-neon/60 p-6 sm:p-10">
+        <p class="eyebrow">Prova gratuita</p>
+        <h2 class="mt-1 text-3xl sm:text-4xl">Vieni a provare, senza impegno</h2>
+        <p class="mt-4 max-w-2xl text-lg text-mist">
+          Scrivici il tuo nome, l'età di chi vuole provare e se ha già giocato: ti rispondiamo con il giorno e l'orario più adatti.
+        </p>
+        <div class="mt-7">
+          <ContactButtons
+            message="Ciao! Vorrei prenotare una prova gratuita di tennistavolo."
+            subject="Prova gratuita di tennistavolo"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section border-t border-navy-700 bg-navy-900">
+    <div class="page-container">
+      <h2 class="text-3xl sm:text-4xl">Domande frequenti</h2>
+      <dl class="mt-8 grid gap-6 md:grid-cols-3">
+        {
+          faqs.map((faq) => (
+            <div class="card p-6">
+              <dt class="text-xl font-extrabold text-white">{faq.question}</dt>
+              <dd class="mt-2 text-mist">{faq.answer}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+</Base>

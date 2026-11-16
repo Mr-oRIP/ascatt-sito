@@ -1,0 +1,66 @@
+---
+// Pagina di un articolo: il testo arriva dal file Markdown in src/content/news/.
+import { Image, getImage } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import { formatDate, isoDate } from '../../utils/format';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('news', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { id: post.id }, props: { post } }));
+}
+
+interface Props {
+  post: CollectionEntry<'news'>;
+}
+
+const { post } = Astro.props;
+const { title, description, date, cover, coverAlt } = post.data;
+const { Content } = await render(post);
+
+// Immagine per le anteprime social: la copertina ritagliata a 1200x630.
+const ogImage = cover ? (await getImage({ src: cover, width: 1200, height: 630, format: 'jpg' })).src : undefined;
+---
+
+<Base title={title} description={description} ogImage={ogImage} ogType="article">
+  <article>
+    <div class="border-b border-navy-700 bg-navy-900">
+      <div class="page-container max-w-4xl py-12 sm:py-16">
+        <p class="eyebrow">
+          News · <time datetime={isoDate(date)}>{formatDate(date)}</time>
+        </p>
+        <h1 class="mt-3 text-4xl sm:text-5xl">{title}</h1>
+        <p class="mt-4 text-lg text-mist">{description}</p>
+      </div>
+    </div>
+
+    <div class="page-container max-w-4xl py-10 sm:py-14">
+      {
+        cover && (
+          <Image
+            src={cover}
+            alt={coverAlt}
+            width={1280}
+            height={720}
+            widths={[480, 800, 1280, 1760]}
+            sizes="(min-width: 896px) 832px, 100vw"
+            priority
+            class="mb-10 aspect-video w-full rounded-2xl border border-navy-700 object-cover"
+          />
+        )
+      }
+      <div class="prose">
+        <Content />
+      </div>
+
+      <p class="mt-12 border-t border-navy-700 pt-6">
+        <a href="/news/" class="text-link inline-flex items-center gap-1.5 py-2">
+          <Icon name="arrow-left" class="h-4 w-4" />
+          Tutte le news
+        </a>
+      </p>
+    </div>
+  </article>
+</Base>

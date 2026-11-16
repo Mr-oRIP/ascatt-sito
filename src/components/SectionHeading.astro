@@ -1,0 +1,28 @@
+---
+// Titolo di sezione con scritta piccola e, se serve, un link "vedi tutto" a destra.
+import Icon from './Icon.astro';
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  linkLabel?: string;
+  linkHref?: string;
+}
+
+const { eyebrow, title, linkLabel, linkHref } = Astro.props;
+---
+
+<div class="mb-8 flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
+  <div>
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h2 class="mt-1 text-3xl sm:text-4xl">{title}</h2>
+  </div>
+  {
+    linkHref && (
+      <a href={linkHref} class="text-link inline-flex items-center gap-1.5 py-2">
+        {linkLabel}
+        <Icon name="arrow-right" class="h-4 w-4" />
+      </a>
+    )
+  }
+</div>

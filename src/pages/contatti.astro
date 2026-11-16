@@ -1,0 +1,87 @@
+---
+// Contatti: WhatsApp, email, social e palestra. Nessun modulo: solo link diretti.
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Icon from '../components/Icon.astro';
+import { site, whatsappLink, mailLink } from '../data/site';
+---
+
+<Base
+  title="Contatti"
+  description="Contatta l'ASD ASCA TT: WhatsApp, email, social e indirizzo della palestra di tennistavolo."
+>
+  <PageHeader
+    eyebrow="Contatti"
+    title="Scrivici, ti rispondiamo noi"
+    intro="Per informazioni su corsi, prove gratuite, squadre e sponsorizzazioni il modo più veloce è WhatsApp."
+  />
+
+  <section class="section">
+    <div class="page-container">
+      <ul class="grid gap-6 md:grid-cols-2">
+        <li class="card flex flex-col p-6 sm:p-8">
+          <Icon name="whatsapp" class="h-9 w-9 text-neon" />
+          <h2 class="mt-4 text-2xl">WhatsApp</h2>
+          <p class="mt-2 text-mist">Il canale più rapido, anche per prenotare la prova gratuita.</p>
+          <p class="mt-3 text-lg font-semibold text-white">{site.whatsappLabel}</p>
+          <a href={whatsappLink('Ciao! Vorrei informazioni sul tennistavolo.')} class="btn btn-primary mt-auto self-start" rel="noopener">
+            Apri WhatsApp
+          </a>
+        </li>
+
+        <li class="card flex flex-col p-6 sm:p-8">
+          <Icon name="mail" class="h-9 w-9 text-neon" />
+          <h2 class="mt-4 text-2xl">Email</h2>
+          <p class="mt-2 text-mist">Per richieste più lunghe, documenti e segreteria.</p>
+          <p class="mt-3 text-lg font-semibold break-words text-white">{site.emailLabel}</p>
+          <a href={mailLink('Richiesta informazioni')} class="btn btn-secondary mt-auto self-start">Scrivi un'email</a>
+        </li>
+
+        <li class="card flex flex-col p-6 sm:p-8">
+          <Icon name="map-pin" class="h-9 w-9 text-neon" />
+          <h2 class="mt-4 text-2xl">Palestra</h2>
+          <address class="mt-2 text-lg not-italic">
+            <span class="font-semibold text-white">{site.venue.name}</span><br />
+            {site.venue.street}<br />
+            {site.venue.city}
+          </address>
+          <div class="mt-auto flex flex-col gap-3 pt-5 sm:flex-row">
+            <a href={site.venue.mapUrl} class="btn btn-secondary" rel="noopener">
+              Apri la mappa
+              <Icon name="external" class="h-4 w-4" />
+            </a>
+            <a href="/orari-e-palestra/" class="btn btn-secondary">Orari</a>
+          </div>
+        </li>
+
+        <li class="card flex flex-col p-6 sm:p-8">
+          <Icon name="instagram" class="h-9 w-9 text-neon" />
+          <h2 class="mt-4 text-2xl">Social</h2>
+          <p class="mt-2 text-mist">Foto, risultati e avvisi in tempo reale. [Profili da confermare.]</p>
+          <ul class="mt-auto flex flex-col gap-3 pt-5 sm:flex-row">
+            {
+              site.social.instagram && (
+                <li>
+                  <a href={site.social.instagram} class="btn btn-secondary w-full" rel="noopener">
+                    <Icon name="instagram" />
+                    Instagram
+                  </a>
+                </li>
+              )
+            }
+            {
+              site.social.facebook && (
+                <li>
+                  <a href={site.social.facebook} class="btn btn-secondary w-full" rel="noopener">
+                    <Icon name="facebook" />
+                    Facebook
+                  </a>
+                </li>
+              )
+            }
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </section>
+</Base>

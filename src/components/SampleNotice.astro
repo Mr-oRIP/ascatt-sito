@@ -1,0 +1,13 @@
+---
+// Avviso "dati di esempio": si spegne ovunque con showSampleNotice: false in src/data/site.ts.
+import { site } from '../data/site';
+---
+
+{
+  site.showSampleNotice && (
+    <p class="rounded-xl border border-gold/60 bg-gold/10 px-4 py-3 text-sm text-slate-200">
+      <strong class="font-bold text-gold">Dati di esempio.</strong>{' '}
+      <slot>Le informazioni di questa pagina sono provvisorie e da confermare.</slot>
+    </p>
+  )
+}

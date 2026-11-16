@@ -1,0 +1,106 @@
+---
+// Piè di pagina: contatti, menu, social e note legali.
+import { Image } from 'astro:assets';
+import logo from '../../brand/logo-asca.png';
+import Icon from './Icon.astro';
+import { site, navigation, whatsappLink, mailLink } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-navy-700 bg-navy-900 pb-24 sm:pb-10">
+  <div class="page-container grid gap-10 py-12 md:grid-cols-3">
+    <div>
+      <div class="flex items-center gap-3">
+        <Image src={logo} alt="" width={56} height={56} densities={[1, 2]} />
+        <p class="text-lg font-extrabold text-white">{site.name}</p>
+      </div>
+      <p class="mt-4 max-w-xs text-mist">{site.tagline}. Società affiliata FITeT.</p>
+      <ul class="mt-5 flex gap-3">
+        {
+          site.social.instagram && (
+            <li>
+              <a
+                href={site.social.instagram}
+                class="flex h-11 w-11 items-center justify-center rounded-full border border-navy-700 text-white hover:border-neon hover:text-neon"
+                rel="noopener"
+              >
+                <Icon name="instagram" />
+                <span class="sr-only">Instagram</span>
+              </a>
+            </li>
+          )
+        }
+        {
+          site.social.facebook && (
+            <li>
+              <a
+                href={site.social.facebook}
+                class="flex h-11 w-11 items-center justify-center rounded-full border border-navy-700 text-white hover:border-neon hover:text-neon"
+                rel="noopener"
+              >
+                <Icon name="facebook" />
+                <span class="sr-only">Facebook</span>
+              </a>
+            </li>
+          )
+        }
+      </ul>
+    </div>
+
+    <nav aria-label="Menu del piè di pagina">
+      <h2 class="text-sm font-bold uppercase tracking-widest text-mist">Il sito</h2>
+      <ul class="mt-4 grid grid-cols-2 gap-x-6 gap-y-1">
+        {
+          navigation.map((item) => (
+            <li>
+              <a href={item.href} class="inline-block py-1.5 font-semibold text-white hover:text-neon">
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a href="/privacy/" class="inline-block py-1.5 font-semibold text-white hover:text-neon">Privacy</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div>
+      <h2 class="text-sm font-bold uppercase tracking-widest text-mist">Contatti</h2>
+      <ul class="mt-4 space-y-3">
+        <li class="flex gap-3">
+          <Icon name="map-pin" class="mt-1 h-5 w-5 text-neon" />
+          <address class="not-italic">
+            {site.venue.name}<br />
+            {site.venue.street}<br />
+            {site.venue.city}
+          </address>
+        </li>
+        <li>
+          <a href={whatsappLink()} class="flex items-center gap-3 py-1 font-semibold text-white hover:text-neon" rel="noopener">
+            <Icon name="whatsapp" class="h-5 w-5 text-neon" />
+            WhatsApp {site.whatsappLabel}
+          </a>
+        </li>
+        <li>
+          <a href={mailLink()} class="flex items-center gap-3 py-1 font-semibold text-white hover:text-neon">
+            <Icon name="mail" class="h-5 w-5 text-neon" />
+            {site.emailLabel}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-navy-700">
+    <div class="page-container py-6 text-sm text-mist">
+      <p>© {year} {site.legal.fullName} · {site.legal.taxCode}</p>
+      {
+        site.showSampleNotice && (
+          <p class="mt-2">Sito in anteprima: testi, orari, prezzi e nomi sono provvisori e da confermare.</p>
+        )
+      }
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,23 @@
+---
+// Coppia di pulsanti "WhatsApp" + "Email" usata nelle call to action.
+import Icon from './Icon.astro';
+import { whatsappLink, mailLink } from '../data/site';
+
+interface Props {
+  message: string; // testo già scritto nel messaggio WhatsApp
+  subject: string; // oggetto dell'email
+}
+
+const { message, subject } = Astro.props;
+---
+
+<div class="flex flex-col gap-3 sm:flex-row">
+  <a href={whatsappLink(message)} class="btn btn-primary" rel="noopener">
+    <Icon name="whatsapp" />
+    Scrivici su WhatsApp
+  </a>
+  <a href={mailLink(subject)} class="btn btn-secondary">
+    <Icon name="mail" />
+    Scrivici un'email
+  </a>
+</div>

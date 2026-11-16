@@ -1,0 +1,47 @@
+---
+// Card di una squadra: serie, girone, stagione e posizione in classifica.
+import type { CollectionEntry } from 'astro:content';
+import { getPosition } from '../utils/teams';
+import Icon from './Icon.astro';
+
+interface Props {
+  team: CollectionEntry<'teams'>;
+}
+
+const { team } = Astro.props;
+const { name, series, group, season, standings } = team.data;
+const position = getPosition(team.data);
+const row = standings.find((item) => item.team === name);
+---
+
+<article class="card relative flex h-full flex-col p-6 transition-colors hover:border-neon">
+  <div class="flex items-start justify-between gap-4">
+    <p class="rounded-lg bg-neon px-3 py-1 text-xl font-extrabold text-navy-950">
+      <span class="sr-only">Serie </span>{series}
+    </p>
+    <p class="text-sm font-semibold text-mist">Stagione {season}</p>
+  </div>
+
+  <h3 class="mt-5 text-2xl">
+    <a href={`/squadre/${team.id}/`} class="after:absolute after:inset-0 hover:text-neon">{name}</a>
+  </h3>
+  <p class="mt-1 text-mist">{group}</p>
+
+  <dl class="mt-6 grid grid-cols-2 gap-4 border-t border-navy-700 pt-5">
+    <div>
+      <dt class="text-sm text-mist">Posizione</dt>
+      <dd class="text-2xl font-extrabold text-white">
+        {position ? `${position}ª su ${standings.length}` : 'n.d.'}
+      </dd>
+    </div>
+    <div>
+      <dt class="text-sm text-mist">Punti</dt>
+      <dd class="text-2xl font-extrabold text-white">{row ? row.points : 'n.d.'}</dd>
+    </div>
+  </dl>
+
+  <p class="mt-6 flex items-center gap-1.5 font-semibold text-sky-400">
+    Classifica e incontri
+    <Icon name="arrow-right" class="h-4 w-4" />
+  </p>
+</article>

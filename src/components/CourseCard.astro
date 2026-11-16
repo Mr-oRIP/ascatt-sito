@@ -1,0 +1,64 @@
+---
+// Scheda di un corso: foto, a chi è rivolto, giorni e orari, quota e prova gratuita.
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import Icon from './Icon.astro';
+
+interface Props {
+  course: CollectionEntry<'courses'>;
+}
+
+const { course } = Astro.props;
+const { title, audience, description, sessions, fee, trial, image, imageAlt } = course.data;
+---
+
+<article id={course.id} class="card flex h-full flex-col overflow-hidden">
+  <Image
+    src={image}
+    alt={imageAlt}
+    width={640}
+    height={360}
+    widths={[320, 480, 640, 960]}
+    sizes="(min-width: 768px) 50vw, 100vw"
+    class="aspect-video w-full object-cover"
+  />
+  <div class="flex flex-1 flex-col p-6">
+    <h3 class="text-2xl">{title}</h3>
+    <p class="mt-1 font-semibold text-neon">{audience}</p>
+    <p class="mt-3 text-mist">{description}</p>
+
+    <dl class="mt-5 space-y-4 border-t border-navy-700 pt-5">
+      <div class="flex gap-3">
+        <Icon name="clock" class="mt-0.5 h-5 w-5 text-neon" />
+        <div>
+          <dt class="text-sm text-mist">Giorni e orari</dt>
+          <dd>
+            <ul>
+              {
+                sessions.map((session) => (
+                  <li>
+                    <span class="font-semibold text-white">{session.day}</span> {session.time}
+                  </li>
+                ))
+              }
+            </ul>
+          </dd>
+        </div>
+      </div>
+      <div class="flex gap-3">
+        <Icon name="calendar" class="mt-0.5 h-5 w-5 text-neon" />
+        <div>
+          <dt class="text-sm text-mist">Quota</dt>
+          <dd class="font-semibold text-white">{fee}</dd>
+        </div>
+      </div>
+      <div class="flex gap-3">
+        <Icon name="check" class="mt-0.5 h-5 w-5 text-neon" />
+        <div>
+          <dt class="text-sm text-mist">Per iniziare</dt>
+          <dd class="font-semibold text-white">{trial}</dd>
+        </div>
+      </div>
+    </dl>
+  </div>
+</article>
