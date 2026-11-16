@@ -1,0 +1,14 @@
+# Corso bambini. Giorni, orari, età e quota sono SEGNAPOSTO da confermare.
+title: Bambini
+audience: "[Età da confermare, es. 6-10 anni]"
+order: 1
+description: >-
+  Il primo approccio alla racchetta attraverso il gioco: coordinazione, equilibrio
+  e tanto divertimento, in piccoli gruppi seguiti da un allenatore.
+sessions:
+  - { day: "Lunedì", time: "17:00 - 18:00" }
+  - { day: "Giovedì", time: "17:00 - 18:00" }
+fee: "[Quota da confermare]"
+trial: "Prova gratuita [numero di lezioni da confermare]"
+image: ../../assets/foto/racchette-pallina-arancione.jpg
+imageAlt: Due racchette e una pallina arancione appoggiate su un tavolo da tennistavolo blu

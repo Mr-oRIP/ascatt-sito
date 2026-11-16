@@ -1,0 +1,14 @@
+# Corso adulti e amatori. Giorni, orari e quota sono SEGNAPOSTO da confermare.
+title: Adulti e amatori
+audience: "Dai 18 anni, anche da zero"
+order: 3
+description: >-
+  Per chi vuole imparare, riprendere dopo anni o semplicemente giocare in compagnia:
+  allenamento guidato e gioco libero ai tavoli.
+sessions:
+  - { day: "Martedì", time: "20:30 - 22:30" }
+  - { day: "Venerdì", time: "20:30 - 22:30" }
+fee: "[Quota da confermare]"
+trial: "Prova gratuita [numero di lezioni da confermare]"
+image: ../../assets/foto/racchetta-dall-alto.jpg
+imageAlt: Una racchetta nera e una pallina bianca viste dall'alto su un tavolo azzurro

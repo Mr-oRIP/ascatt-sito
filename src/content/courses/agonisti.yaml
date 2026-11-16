@@ -1,0 +1,15 @@
+# Gruppo agonisti. Giorni, orari e quota sono SEGNAPOSTO da confermare.
+title: Agonisti
+audience: "Atleti delle squadre e dei tornei FITeT"
+order: 4
+description: >-
+  Allenamenti a ritmo alto per chi gioca nei campionati a squadre e nei tornei
+  individuali: tecnica, schemi di gioco e preparazione alle gare.
+sessions:
+  - { day: "Lunedì", time: "20:00 - 22:30" }
+  - { day: "Mercoledì", time: "20:00 - 22:30" }
+  - { day: "Venerdì", time: "20:30 - 22:30" }
+fee: "[Quota da confermare]"
+trial: "Allenamento di prova su appuntamento"
+image: ../../assets/foto/racchetta-tavolo-verde.jpg
+imageAlt: Una racchetta nera appoggiata sulla linea centrale di un tavolo verde

@@ -1,0 +1,35 @@
+# Squadra B. DATI DI ESEMPIO: sostituire con quelli veri.
+# Dopo ogni giornata aggiornare: updatedAt, standings (classifica) e matches (incontri).
+name: ASCA TT B
+series: D2
+group: "Girone [da confermare]"
+season: "2026/27"
+order: 2
+fitetUrl: https://portale.fitet.org/
+updatedAt: 2026-11-15
+homeMatches: "[Giorno e ora da confermare]"
+
+players:
+  - "Giocatore 1 [da confermare]"
+  - "Giocatore 2 [da confermare]"
+  - "Giocatore 3 [da confermare]"
+  - "Giocatore 4 [da confermare]"
+
+standings:
+  - { team: "ASCA TT B", played: 5, won: 4, lost: 1, points: 8 }
+  - { team: "Avversaria 1", played: 5, won: 4, lost: 1, points: 8 }
+  - { team: "Avversaria 2", played: 5, won: 3, lost: 2, points: 6 }
+  - { team: "Avversaria 3", played: 5, won: 3, lost: 2, points: 6 }
+  - { team: "Avversaria 4", played: 5, won: 2, lost: 3, points: 4 }
+  - { team: "Avversaria 5", played: 5, won: 2, lost: 3, points: 4 }
+  - { team: "Avversaria 6", played: 5, won: 1, lost: 4, points: 2 }
+  - { team: "Avversaria 7", played: 5, won: 1, lost: 4, points: 2 }
+
+matches:
+  - { date: 2026-10-11, home: "Avversaria 4", away: "ASCA TT B", result: "2-5" }
+  - { date: 2026-10-18, home: "ASCA TT B", away: "Avversaria 6", result: "5-1" }
+  - { date: 2026-10-25, home: "Avversaria 1", away: "ASCA TT B", result: "5-4" }
+  - { date: 2026-11-08, home: "ASCA TT B", away: "Avversaria 3", result: "5-3" }
+  - { date: 2026-11-15, home: "Avversaria 7", away: "ASCA TT B", result: "0-5" }
+  - { date: 2026-11-29, home: "ASCA TT B", away: "Avversaria 2" }
+  - { date: 2026-12-13, home: "Avversaria 5", away: "ASCA TT B" }

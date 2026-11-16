@@ -1,0 +1,21 @@
+# Sponsor. NOMI DI ESEMPIO: sostituire con quelli veri.
+# tier: main = sponsor principale (in evidenza), partner = griglia.
+# logo (facoltativo): mettere il file in public/sponsor/ e scrivere es. "/sponsor/nome.svg".
+#   Senza logo viene mostrato un riquadro con il nome.
+# url (facoltativo): sito dello sponsor.
+- id: main-sponsor
+  name: "Main sponsor [da confermare]"
+  tier: main
+  description: "Qui una riga sullo sponsor principale e su come sostiene la società."
+- id: sponsor-2
+  name: "Sponsor 2 [da confermare]"
+  tier: partner
+- id: sponsor-3
+  name: "Sponsor 3 [da confermare]"
+  tier: partner
+- id: sponsor-4
+  name: "Sponsor 4 [da confermare]"
+  tier: partner
+- id: sponsor-5
+  name: "Sponsor 5 [da confermare]"
+  tier: partner

@@ -1,0 +1,29 @@
+# Consiglio direttivo e allenatori. NOMI SEGNAPOSTO: solo adulti, e solo dopo il loro consenso.
+# group: board = consiglio direttivo, coaches = allenatori.
+- id: presidente
+  name: "Nome Cognome [da confermare]"
+  role: Presidente
+  group: board
+- id: vicepresidente
+  name: "Nome Cognome [da confermare]"
+  role: Vicepresidente
+  group: board
+- id: segretario
+  name: "Nome Cognome [da confermare]"
+  role: Segreteria
+  group: board
+- id: responsabile-tecnico
+  name: "Nome Cognome [da confermare]"
+  role: Responsabile tecnico
+  group: coaches
+  bio: "Qualifica e breve presentazione [da confermare]."
+- id: allenatore-giovanile
+  name: "Nome Cognome [da confermare]"
+  role: Allenatore settore giovanile
+  group: coaches
+  bio: "Qualifica e breve presentazione [da confermare]."
+- id: allenatore-adulti
+  name: "Nome Cognome [da confermare]"
+  role: Allenatore adulti e amatori
+  group: coaches
+  bio: "Qualifica e breve presentazione [da confermare]."

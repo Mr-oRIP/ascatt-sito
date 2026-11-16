@@ -1,0 +1,14 @@
+# Corso ragazzi. Giorni, orari, età e quota sono SEGNAPOSTO da confermare.
+title: Ragazzi
+audience: "[Età da confermare, es. 11-17 anni]"
+order: 2
+description: >-
+  Tecnica di base, gioco di gambe e prime partite. Chi vuole può avvicinarsi
+  all'attività agonistica con i tornei giovanili.
+sessions:
+  - { day: "Lunedì", time: "18:00 - 19:30" }
+  - { day: "Giovedì", time: "18:00 - 19:30" }
+fee: "[Quota da confermare]"
+trial: "Prova gratuita [numero di lezioni da confermare]"
+image: ../../assets/foto/racchette-tavolo-blu.jpg
+imageAlt: Una racchetta rossa e una nera con una pallina su un tavolo blu
