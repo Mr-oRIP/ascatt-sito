@@ -7,7 +7,7 @@ import SampleNotice from '../components/SampleNotice.astro';
 import SponsorLogo from '../components/SponsorLogo.astro';
 import ContactButtons from '../components/ContactButtons.astro';
 
-const sponsors = await getCollection('sponsors');
+const sponsors = (await getCollection('sponsors')).sort((a, b) => a.data.order - b.data.order);
 const mainSponsors = sponsors.filter((sponsor) => sponsor.data.tier === 'main');
 const partners = sponsors.filter((sponsor) => sponsor.data.tier === 'partner');
 

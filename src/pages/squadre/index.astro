@@ -31,6 +31,7 @@ const seriesList = [...new Set(teams.map((team) => team.data.series))];
         <SampleNotice>Squadre, gironi, classifiche e risultati non sono reali.</SampleNotice>
       </div>
 
+      <h2 class="sr-only">Elenco delle squadre</h2>
       <div class="mt-8 flex flex-wrap items-center gap-2" role="group" aria-label="Filtra le squadre per serie">
         <button type="button" class="filter-button" data-series="all" aria-pressed="true">Tutte</button>
         {
@@ -108,7 +109,7 @@ const seriesList = [...new Set(teams.map((team) => team.data.series))];
       });
 
       buttons.forEach((other) => other.setAttribute('aria-pressed', String(other === button)));
-      if (status) status.textContent = `${visible} squadre mostrate`;
+      if (status) status.textContent = visible === 1 ? '1 squadra mostrata' : `${visible} squadre mostrate`;
     });
   });
 </script>

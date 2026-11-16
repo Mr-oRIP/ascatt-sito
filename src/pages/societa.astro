@@ -8,7 +8,7 @@ import SampleNotice from '../components/SampleNotice.astro';
 import clubImage from '../assets/foto/racchetta-pallina-primo-piano.jpg';
 import { site } from '../data/site';
 
-const staff = await getCollection('staff');
+const staff = (await getCollection('staff')).sort((a, b) => a.data.order - b.data.order);
 const board = staff.filter((person) => person.data.group === 'board');
 const coaches = staff.filter((person) => person.data.group === 'coaches');
 

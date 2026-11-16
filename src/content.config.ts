@@ -81,6 +81,7 @@ const schedule = defineCollection({
   loader: file('src/content/schedule.yaml'),
   schema: z.object({
     day: z.string(),
+    order: z.number(), // ordine dei giorni (1 = primo)
     slots: z.array(z.object({ time: z.string(), activity: z.string() })),
   }),
 });
@@ -91,6 +92,7 @@ const sponsors = defineCollection({
   schema: z.object({
     name: z.string(),
     tier: z.enum(['main', 'partner']), // main = in evidenza
+    order: z.number().default(99),
     description: z.string().optional(),
     url: z.url().optional(),
     logo: z.string().optional(), // file in public/sponsor/, es. "/sponsor/nome.svg"
@@ -104,6 +106,7 @@ const staff = defineCollection({
     name: z.string(),
     role: z.string(),
     group: z.enum(['board', 'coaches']), // board = consiglio, coaches = allenatori
+    order: z.number().default(99),
     bio: z.string().optional(),
   }),
 });

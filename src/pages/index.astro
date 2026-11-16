@@ -17,9 +17,9 @@ const latestNews = (await getCollection('news', ({ data }) => !data.draft))
 
 const teams = (await getCollection('teams')).sort((a, b) => a.data.order - b.data.order);
 const courses = (await getCollection('courses')).sort((a, b) => a.data.order - b.data.order);
-const schedule = await getCollection('schedule');
+const schedule = (await getCollection('schedule')).sort((a, b) => a.data.order - b.data.order);
 
-const sponsors = await getCollection('sponsors');
+const sponsors = (await getCollection('sponsors')).sort((a, b) => a.data.order - b.data.order);
 const mainSponsors = sponsors.filter((sponsor) => sponsor.data.tier === 'main');
 const partners = sponsors.filter((sponsor) => sponsor.data.tier === 'partner');
 ---
@@ -36,7 +36,7 @@ const partners = sponsors.filter((sponsor) => sponsor.data.tier === 'partner');
       priority
       class="absolute inset-0 -z-20 h-full w-full object-cover object-[70%_center]"
     />
-    <div class="absolute inset-0 -z-10 bg-linear-to-r from-navy-950 via-navy-950/90 to-navy-950/55"></div>
+    <div class="absolute inset-0 -z-10 bg-linear-to-r from-navy-950 via-navy-950/90 to-navy-950/70 lg:to-navy-950/45"></div>
 
     <div class="page-container py-20 sm:py-28 lg:py-36">
       <p class="eyebrow">Tennistavolo · Stagione {site.season}</p>
@@ -56,6 +56,24 @@ const partners = sponsors.filter((sponsor) => sponsor.data.tier === 'partner');
         </a>
       </div>
     </div>
+  </section>
+
+  <!-- In breve: i numeri vengono contati dai contenuti, non sono scritti a mano -->
+  <section aria-label="In breve" class="border-b border-navy-700 bg-navy-900">
+    <ul class="page-container grid grid-cols-3 divide-x divide-navy-700 py-5 text-center">
+      <li class="px-2">
+        <p class="text-2xl font-extrabold text-white sm:text-3xl">{teams.length}</p>
+        <p class="text-sm text-mist sm:text-base">squadre in campionato</p>
+      </li>
+      <li class="px-2">
+        <p class="text-2xl font-extrabold text-white sm:text-3xl">{courses.length}</p>
+        <p class="text-sm text-mist sm:text-base">corsi per età e livello</p>
+      </li>
+      <li class="px-2">
+        <p class="text-2xl font-extrabold text-neon sm:text-3xl">Gratis</p>
+        <p class="text-sm text-mist sm:text-base">la prova in palestra</p>
+      </li>
+    </ul>
   </section>
 
   <!-- Ultime news -->

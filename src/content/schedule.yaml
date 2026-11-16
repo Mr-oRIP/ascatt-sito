@@ -1,30 +1,36 @@
 # Orari settimanali della palestra. ORARI DI ESEMPIO: da confermare.
-# Una voce per giorno ("id" serve solo ad Astro, deve essere diverso per ogni giorno).
+# Una voce per giorno: "id" deve essere diverso per ogni giorno, "order" decide l'ordine.
 # Per un giorno di chiusura basta togliere la voce.
 - id: lunedi
+  order: 1
   day: Lunedì
   slots:
     - { time: "17:00 - 18:00", activity: "Corso bambini" }
     - { time: "18:00 - 19:30", activity: "Corso ragazzi" }
     - { time: "20:00 - 22:30", activity: "Agonisti" }
 - id: martedi
+  order: 2
   day: Martedì
   slots:
     - { time: "20:30 - 22:30", activity: "Adulti e amatori" }
 - id: mercoledi
+  order: 3
   day: Mercoledì
   slots:
     - { time: "20:00 - 22:30", activity: "Agonisti" }
 - id: giovedi
+  order: 4
   day: Giovedì
   slots:
     - { time: "17:00 - 18:00", activity: "Corso bambini" }
     - { time: "18:00 - 19:30", activity: "Corso ragazzi" }
 - id: venerdi
+  order: 5
   day: Venerdì
   slots:
     - { time: "20:30 - 22:30", activity: "Adulti, amatori e agonisti" }
 - id: sabato
+  order: 6
   day: Sabato
   slots:
     - { time: "Pomeriggio", activity: "Partite di campionato in casa (secondo calendario)" }

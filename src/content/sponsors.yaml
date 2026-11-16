@@ -3,19 +3,25 @@
 # logo (facoltativo): mettere il file in public/sponsor/ e scrivere es. "/sponsor/nome.svg".
 #   Senza logo viene mostrato un riquadro con il nome.
 # url (facoltativo): sito dello sponsor.
+# order: ordine in cui compaiono (1 = primo).
 - id: main-sponsor
+  order: 1
   name: "Main sponsor [da confermare]"
   tier: main
   description: "Qui una riga sullo sponsor principale e su come sostiene la società."
 - id: sponsor-2
+  order: 2
   name: "Sponsor 2 [da confermare]"
   tier: partner
 - id: sponsor-3
+  order: 3
   name: "Sponsor 3 [da confermare]"
   tier: partner
 - id: sponsor-4
+  order: 4
   name: "Sponsor 4 [da confermare]"
   tier: partner
 - id: sponsor-5
+  order: 5
   name: "Sponsor 5 [da confermare]"
   tier: partner

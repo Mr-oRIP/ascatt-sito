@@ -28,36 +28,36 @@ const { title, audience, description, sessions, fee, trial, image, imageAlt } = 
     <p class="mt-3 text-mist">{description}</p>
 
     <dl class="mt-5 space-y-4 border-t border-navy-700 pt-5">
-      <div class="flex gap-3">
-        <Icon name="clock" class="mt-0.5 h-5 w-5 text-neon" />
-        <div>
-          <dt class="text-sm text-mist">Giorni e orari</dt>
-          <dd>
-            <ul>
-              {
-                sessions.map((session) => (
-                  <li>
-                    <span class="font-semibold text-white">{session.day}</span> {session.time}
-                  </li>
-                ))
-              }
-            </ul>
-          </dd>
-        </div>
+      <div>
+        <dt class="flex items-center gap-2 text-sm text-mist">
+          <Icon name="clock" class="h-5 w-5 text-neon" />
+          Giorni e orari
+        </dt>
+        <dd class="mt-1 pl-7">
+          <ul>
+            {
+              sessions.map((session) => (
+                <li>
+                  <span class="font-semibold text-white">{session.day}</span> {session.time}
+                </li>
+              ))
+            }
+          </ul>
+        </dd>
       </div>
-      <div class="flex gap-3">
-        <Icon name="calendar" class="mt-0.5 h-5 w-5 text-neon" />
-        <div>
-          <dt class="text-sm text-mist">Quota</dt>
-          <dd class="font-semibold text-white">{fee}</dd>
-        </div>
+      <div>
+        <dt class="flex items-center gap-2 text-sm text-mist">
+          <Icon name="calendar" class="h-5 w-5 text-neon" />
+          Quota
+        </dt>
+        <dd class="mt-1 pl-7 font-semibold text-white">{fee}</dd>
       </div>
-      <div class="flex gap-3">
-        <Icon name="check" class="mt-0.5 h-5 w-5 text-neon" />
-        <div>
-          <dt class="text-sm text-mist">Per iniziare</dt>
-          <dd class="font-semibold text-white">{trial}</dd>
-        </div>
+      <div>
+        <dt class="flex items-center gap-2 text-sm text-mist">
+          <Icon name="check" class="h-5 w-5 text-neon" />
+          Per iniziare
+        </dt>
+        <dd class="mt-1 pl-7 font-semibold text-white">{trial}</dd>
       </div>
     </dl>
   </div>
