@@ -4,8 +4,9 @@ import { Image } from 'astro:assets';
 import logo from '../../brand/logo-asca.png';
 import Icon from './Icon.astro';
 import { site, navigation } from '../data/site';
+import { withoutBase } from '../utils/url';
 
-const currentPath = Astro.url.pathname;
+const currentPath = withoutBase(Astro.url.pathname);
 ---
 
 <header class="sticky top-0 z-40 border-b border-navy-700 bg-navy-950/95 backdrop-blur">

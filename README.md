@@ -124,3 +124,12 @@ Il sito è pensato per Vercel (piano gratuito): Vercel riconosce Astro, esegue `
 - Per ora **solo anteprime (preview)**: niente produzione e niente dominio `ascatt.it` finché la società non approva.
 - L'indirizzo definitivo del sito è `site` in `astro.config.mjs` (serve a sitemap, canonical e anteprime social).
 - Il sito non usa cookie, analytics né variabili d'ambiente: non ci sono segreti da configurare.
+
+### Anteprima su GitHub Pages
+
+Indirizzo: **https://mr-orip.github.io/ascatt-sito/**. È il link da mandare per far vedere il sito: non serve nessun login.
+
+- Si aggiorna da sola a ogni push su `main` (workflow `.github/workflows/pages.yml`, circa un minuto). Lo stato è nella scheda **Actions** del repository.
+- La build usa `GITHUB_PAGES=true`: il sito sta nella sottocartella `/ascatt-sito/`, i link interni la ricevono in automatico e tutte le pagine hanno `noindex`, così non finiscono su Google.
+- Nei testi e nei file `.md` continua a scrivere i link come `/corsi/`: la sottocartella la aggiunge la build.
+- Per provarla in locale: `GITHUB_PAGES=true npm run build`. Poi rifai `npm run build` normale prima di altri deploy.

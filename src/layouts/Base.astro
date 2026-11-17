@@ -6,6 +6,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import WhatsAppButton from '../components/WhatsAppButton.astro';
 import { site } from '../data/site';
+import { withBase, isSubfolderPreview } from '../utils/url';
 
 interface Props {
   title: string; // titolo della pagina (il nome della società viene aggiunto da solo)
@@ -19,7 +20,9 @@ const { title, description = site.description, ogImage = '/og-default.jpg', ogTy
 
 const fullTitle = title === site.name ? `${site.name} | ${site.tagline}` : `${title} | ${site.name}`;
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
-const ogImageUrl = new URL(ogImage, Astro.site);
+const ogImageUrl = new URL(withBase(ogImage), Astro.site);
+// Le anteprime (es. GitHub Pages) non devono finire su Google.
+const robotsNoindex = noindex || isSubfolderPreview;
 
 // Dati strutturati per i motori di ricerca (solo dati certi, niente segnaposto).
 const structuredData = {
@@ -27,8 +30,8 @@ const structuredData = {
   '@type': 'SportsOrganization',
   name: site.name,
   sport: 'Tennistavolo',
-  url: Astro.site,
-  logo: new URL('/icon-192.png', Astro.site),
+  url: new URL(withBase('/'), Astro.site),
+  logo: new URL(withBase('/icon-192.png'), Astro.site),
 };
 ---
 
@@ -40,7 +43,7 @@ const structuredData = {
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
-    {noindex && <meta name="robots" content="noindex" />}
+    {robotsNoindex && <meta name="robots" content="noindex" />}
 
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192" />
